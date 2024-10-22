@@ -29,7 +29,11 @@ app.use((req, res, next) => {
 });
 
 // console.log(process.env.MONGO_URI);
-db();
+try {
+  db();
+} catch (err) {
+  console.error("Failed to connect to database:", err);
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
