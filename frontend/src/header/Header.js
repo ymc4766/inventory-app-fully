@@ -25,7 +25,7 @@ const Header = ({ openSidebar }) => {
 
       <div className="header-left">
         <h3 className="text-lg  sm:ml-3  md:text-2xl text-slate-100">
-          Inventory Sys
+          INVENTORY M SYS
         </h3>
       </div>
 
