@@ -6,7 +6,6 @@ dotenv.config();
 import cors from "cors";
 
 const app = express();
-const port = process.env.PORT || 5000;
 
 import morgan from "morgan";
 import helmet from "helmet";
@@ -19,6 +18,7 @@ import uomRoutes from "./routes/uomRoutes.js";
 import path from "path";
 
 import { errorHandler, routeNotFound } from "./utils/errorHandler.js";
+import { fileURLToPath } from "url";
 
 app.use((req, res, next) => {
   res.setHeader(
@@ -28,12 +28,10 @@ app.use((req, res, next) => {
   next();
 });
 
+const port = process.env.PORT || 5000;
+
 // console.log(process.env.MONGO_URI);
-try {
-  db();
-} catch (err) {
-  console.error("Failed to connect to database:", err);
-}
+db();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -52,17 +50,20 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/uom", uomRoutes);
 
-const __dirname = path.resolve();
+const __filname = fileURLToPath(import.meta.url);
+const __dirname = path.resolve(__filname);
 
 if (process.env.NODE_ENV === "production") {
+  // Serve static files from the build directory
   app.use(express.static(path.join(__dirname, "/frontend/build")));
 
+  // Handle other routes
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
   });
 } else {
   app.get("/", (req, res) => {
-    res.json(`App is running...`);
+    res.send(`app is running ...`);
   });
 }
 
