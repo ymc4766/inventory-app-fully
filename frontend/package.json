@@ -49,5 +49,5 @@
     "sass": "^1.77.8",
     "tailwindcss": "^3.4.7"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "http://localhost:5000/"
 }

@@ -62,7 +62,7 @@ if (process.env.NODE_ENV === "production") {
   });
 } else {
   app.get("/", (req, res) => {
-    res.json(`app is  running ..`);
+    res.json(`App is running...`);
   });
 }
 
