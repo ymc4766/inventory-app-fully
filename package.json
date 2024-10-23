@@ -2,10 +2,10 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node backend/server.js",
-   "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",
