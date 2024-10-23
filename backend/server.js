@@ -50,16 +50,13 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/uom", uomRoutes);
 
-const __filname = fileURLToPath(import.meta.url);
-const __dirname = path.resolve(__filname);
-
 if (process.env.NODE_ENV === "production") {
-  // Serve static files from the build directory
-  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  // Serve static files from the build directory in frontend
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-  // Handle other routes
+  // Handle all other routes and send the index.html file
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
   });
 } else {
   app.get("/", (req, res) => {
