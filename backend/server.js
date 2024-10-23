@@ -16,7 +16,6 @@ import orderRoutes from "./routes/orderRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import uomRoutes from "./routes/uomRoutes.js";
 import path from "path";
-
 import { errorHandler, routeNotFound } from "./utils/errorHandler.js";
 import { fileURLToPath } from "url";
 
@@ -30,7 +29,6 @@ app.use((req, res, next) => {
 
 const port = process.env.PORT || 5000;
 
-// console.log(process.env.MONGO_URI);
 db();
 
 app.use(express.json());
@@ -50,23 +48,27 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/uom", uomRoutes);
 
+// Correctly calculate __dirname in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 if (process.env.NODE_ENV === "production") {
-  // Serve static files from the build directory in frontend
+  // Serve static files from frontend build folder
   app.use(express.static(path.join(__dirname, "../frontend/build")));
 
-  // Handle all other routes and send the index.html file
+  // Handle all routes and serve index.html
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "../frontend", "build", "index.html"));
   });
 } else {
   app.get("/", (req, res) => {
-    res.send(`app is running ...`);
+    res.send("app is running ...");
   });
 }
 
 app.use("/*", routeNotFound);
 app.use(errorHandler);
 
-// console.log(5 + 6, "", 6 * 6);
-
-app.listen(port, console.log(`app is running port  ${port}`));
+app.listen(port, () => {
+  console.log(`app is running on port ${port}`);
+});
